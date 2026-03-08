@@ -1,0 +1,305 @@
+/* Intro.module.css — Estilo MindJoin hero adaptado */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #0d0704;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  overflow: hidden;
+}
+
+.intro.visible {
+  opacity: 1;
+}
+
+/* ─── NAVBAR ─── */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  padding: 22px 40px;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.navItem {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navLine {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  display: block;
+}
+
+.navCenter {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── ESCENA 1 ─── */
+.scene1 {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    #5BC8F5 0%,
+    #85D8F7 18%,
+    #B8EAF9 38%,
+    #D4F1C0 62%,
+    #A8D96B 80%,
+    #7EC850 100%
+  );
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.scene1Overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(91, 200, 245, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(126, 200, 80, 0.2) 100%
+  );
+  z-index: 1;
+}
+
+.scene1Logo {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-title), sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  color: #8B4513;
+  text-align: center;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.tagline {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.skipBtn {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  z-index: 2;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.65);
+  padding: 10px 22px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 2px;
+}
+
+.skipBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ─── ESCENA 2 ─── */
+.scene2 {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scene2Bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/escenarios/escenario1.webp');
+  background-size: cover;
+  background-position: center top;
+  z-index: 0;
+}
+
+.scene2Overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.0) 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 1;
+}
+
+.bigTitle {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-title), sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.3;
+  color: #FFFAF0;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.03em;
+  text-shadow:
+    0 6px 40px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.4);
+  /* opacity gestionado por GSAP */
+}
+
+.bigTitleLine {
+  display: block;
+  overflow: hidden;
+}
+
+/* ─── PANELES INFERIORES ─── */
+.bottomPanels {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 48px;
+  /* opacity gestionado por GSAP */
+}
+
+.panelLeft {
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panelLeft p {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  background: rgba(0, 0, 0, 0.38);
+  padding: 16px 20px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  align-self: center;
+  background: #FFFAF0;
+  color: #1a0800;
+  border: 3px solid #1a0800;
+  padding: 22px 48px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 2px;
+}
+
+.btn:hover {
+  background: #FFD700;
+  border-color: #8B4513;
+  transform: translateX(4px);
+}
+
+.arrow {
+  font-size: 1.5em;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.panelRight {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.42);
+  padding: 20px 28px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.statNum {
+  font-family: var(--font-title), sans-serif;
+  font-size: 3.2rem;
+  color: #FFD700;
+  line-height: 1;
+  font-style: italic;
+}
+
+.statLabel {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.statDots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+  max-width: 110px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.55);
+}

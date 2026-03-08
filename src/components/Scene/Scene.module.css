@@ -1,0 +1,170 @@
+/* Scene.module.css — layout dos columnas estilo Aaron Blabey */
+
+/* ── Contenedor principal: grid dos columnas ── */
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 55% 45%;
+  overflow: hidden;
+}
+
+/* Escenas pares: personajes a la derecha, texto a la izquierda */
+.scene.layoutRight {
+  grid-template-columns: 45% 55%;
+}
+
+.scene.layoutRight .charArea {
+  order: 2;
+}
+
+.scene.layoutRight .textArea {
+  order: 1;
+}
+
+/* ── Imagen de fondo fullscreen ── */
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Área de personajes ── */
+.charArea {
+  position: relative;
+  height: 100%;
+  z-index: 5;
+  overflow: hidden;
+  /* Los personajes son absolutos dentro de este contenedor */
+}
+
+/* ── Panel de texto ── */
+.textArea {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px 48px;
+
+  /* Fondo oscuro semitransparente para legibilidad sobre el bg ilustrado */
+  background: rgba(12, 5, 0, 0.74);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* Separador vertical sutil */
+  border-left: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+.scene.layoutRight .textArea {
+  border-left: none;
+  border-right: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+/* ── Número de escena ── */
+.sceneNum {
+  font-family: var(--font-body), 'Nunito', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #FFD700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 14px;
+}
+
+/* ── Título ── */
+.title {
+  margin: 0 0 20px;
+  font-family: var(--font-title), 'Lilita One', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  font-weight: 400; /* Lilita One ya es ultra-bold */
+  color: #FFFAF0;
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Narración ── */
+.narration {
+  margin: 0;
+  font-family: var(--font-body), 'Nunito', sans-serif;
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  font-weight: 600;
+  color: rgba(255, 250, 240, 0.95);
+  line-height: 1.9;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 1280px) {
+  .textArea {
+    padding: 44px 38px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .textArea {
+    padding: 36px 28px;
+  }
+
+  .title {
+    font-size: clamp(1.3rem, 2.2vw, 2rem);
+  }
+}
+
+/* Tablet/móvil: apilados verticalmente (personaje arriba, texto abajo) */
+@media (max-width: 768px) {
+  .scene,
+  .scene.layoutRight {
+    grid-template-columns: 1fr;
+    grid-template-rows: 58% 42%;
+  }
+
+  .charArea,
+  .scene.layoutRight .charArea {
+    order: 1;
+  }
+
+  .textArea,
+  .scene.layoutRight .textArea {
+    order: 2;
+    padding: 20px 22px 24px;
+    border: none;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    background: rgba(12, 5, 0, 0.82);
+  }
+
+  .title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  .narration {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 480px) {
+  .scene {
+    grid-template-rows: 52% 48%;
+  }
+
+  .textArea {
+    padding: 16px 16px 20px;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .narration {
+    font-size: 0.88rem;
+  }
+}

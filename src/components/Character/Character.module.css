@@ -1,0 +1,49 @@
+/* Character.module.css
+   El personaje es un div absoluto con una imagen dentro.
+   El contenedor (.character) define el área de click/hover.
+*/
+
+.character {
+  position: absolute;
+  /* filter con drop-shadow respeta la transparencia del PNG.
+     box-shadow NO lo haría — aplicaría sombra al rectángulo,
+     no al contorno del personaje. */
+  filter: drop-shadow(4px 8px 12px rgba(0, 0, 0, 0.35));
+
+  /* Transición suave para el hover — solo afecta transform,
+     no al filter (más eficiente en GPU) */
+  transition: transform 0.25s ease, filter 0.25s ease;
+
+  /* cursor normal por defecto */
+  cursor: default;
+
+  /* z-index bajo para que otros elementos del libro puedan superponerse si hace falta */
+  z-index: 10;
+}
+
+/* Si tiene onClick, mostramos cursor pointer y efecto hover */
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.04) translateY(-6px);
+  filter: drop-shadow(6px 14px 18px rgba(0, 0, 0, 0.4))
+          brightness(1.05);
+}
+
+/* En tablets: escala ligera — los personajes ya son pequeños */
+@media (max-width: 1024px) {
+  .character {
+    transform-origin: bottom center;
+    scale: 0.9;
+  }
+}
+
+/* En móvil: escala más conservadora */
+@media (max-width: 768px) {
+  .character {
+    transform-origin: bottom center;
+    scale: 0.78;
+  }
+}

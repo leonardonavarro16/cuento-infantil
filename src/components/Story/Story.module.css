@@ -1,0 +1,69 @@
+/* Story.module.css — Contenedor scroll vertical */
+
+.story {
+  position: relative;
+  /* Sin height fijo — crece con el contenido (12 x 100vh) */
+}
+
+/* ─── Nav dots laterales ─── */
+
+.navDots {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  z-index: 200;
+  padding: 10px 6px;
+  background: rgba(255, 250, 240, 0.7);
+  border: 1px solid rgba(196, 114, 10, 0.2);
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(139, 69, 19, 0.25);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dot:hover {
+  background: rgba(196, 114, 10, 0.55);
+  transform: scale(1.2);
+}
+
+.dotActive {
+  background: #C4720A;
+  transform: scale(1.35);
+  box-shadow: 0 0 7px rgba(196, 114, 10, 0.5);
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .navDots {
+    right: 10px;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ocultar dots en móviles muy pequeños para no estorbar */
+  .navDots {
+    display: none;
+  }
+}

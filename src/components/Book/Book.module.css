@@ -1,0 +1,395 @@
+/* src/components/Book/Book.module.css */
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  
+  /* FONDO: Último frame del video */
+  background-image: url('/images/book-background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
+  padding: 0;
+  perspective: 2500px;
+  
+  /* Animación de entrada */
+  animation: containerFadeIn 1.5s ease-in;
+}
+
+@keyframes containerFadeIn {
+  from {
+    opacity: 0;
+    filter: brightness(1.2);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+.title {
+  display: none; /* Ocultar completamente */
+}
+
+.book {
+  width: 1160px;  /* Reducido para que se vean los bordes del fondo */
+  height: 660px;
+  position: relative;
+  transform-style: preserve-3d;
+
+  /* SIN sombras pesadas */
+  box-shadow: none;
+  border-radius: 0;
+  overflow: hidden;
+
+  /* Posicionamiento para coincidir con el libro del fondo */
+  margin-top: -10px;
+  
+  /* Animación de entrada */
+  animation: bookAppear 1.8s ease-out 0.5s backwards;
+}
+
+@keyframes bookAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.page {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  
+  /* Fondo semi-transparente para ver la textura de abajo */
+  background: rgba(255, 250, 240, 0.7);
+  
+  /* Sin sombras internas */
+  box-shadow: none;
+  
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  overflow: hidden;
+  
+  /* Borde sutil */
+  border: 1px solid rgba(139, 69, 19, 0.15);
+}
+
+.pageLeft {
+  left: 0;
+}
+
+.pageRight {
+  right: 0;
+  transform-origin: left center;
+}
+
+.pageLeft {
+  left: 0;
+  border-right: 2px solid #ddd;
+}
+
+.pageRight {
+  right: 0;
+  border-left: 2px solid #ddd;
+  transform-origin: left center; /* Eje de rotación */
+}
+
+.pageContent {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Contenedor del texto — siempre al fondo, encima del personaje */
+.textPanel {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 30px 30px;
+  pointer-events: none; /* el click pasa al contenedor padre */
+}
+
+/* Estado oculto: sin visibilidad ni espacio */
+.textHidden {
+  opacity: 0 !important;
+  pointer-events: none;
+  /* GSAP sobreescribirá opacity al hacer visible */
+}
+
+/* Hint "toca para leer" centrado en la página */
+.tapHint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 1em;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  animation: pulse 2s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+.tapHintHidden {
+  display: none;
+}
+
+.overlay {
+  display: none; /* Desactivar overlay */
+}
+
+.sceneTitle {
+  position: relative;
+  z-index: 2;
+  color: #8B0000;
+  font-size: 1.6em;
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+
+  text-shadow:
+    1px 1px 0px #FFD700,
+    2px 2px 6px rgba(0, 0, 0, 0.4);
+
+  background: linear-gradient(135deg,
+    rgba(255, 250, 240, 0.93) 0%,
+    rgba(255, 248, 220, 0.93) 100%
+  );
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 3px solid #8B4513;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.25),
+    inset 0 1px 4px rgba(255, 255, 255, 0.5);
+}
+
+.narration {
+  position: relative;
+  z-index: 2;
+  color: #2c1810;
+  font-size: 1.15em;
+  line-height: 1.6;
+  font-style: italic;
+  text-align: center;
+  font-weight: 500;
+
+  background: linear-gradient(135deg,
+    rgba(255, 252, 245, 0.94) 0%,
+    rgba(255, 248, 220, 0.94) 100%
+  );
+  padding: 14px 24px;
+  border-radius: 14px;
+  border: 2px solid rgba(139, 69, 19, 0.35);
+
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 5px rgba(255, 255, 255, 0.6);
+
+  margin: 0;
+}
+
+.pageNum {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: #999;
+  font-size: 1.5em;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.controls {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  z-index: 100;
+}
+
+.btn {
+  background: linear-gradient(135deg, #FFD700 0%, #DAA520 100%);
+  border: 4px solid #8B4513;
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #2c1810;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+  color: white;
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:
+    0 12px 30px rgba(220, 80, 0, 0.5),
+    inset 0 2px 5px rgba(255, 255, 255, 0.3);
+  border-color: #CC4400;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.counter {
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.instructions {
+  color: white;
+  font-size: 1em;
+  text-align: center;
+  opacity: 0.8;
+  animation: pulse 2s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.instructions p {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1440px) {
+  .book {
+    width: 1080px;
+    height: 620px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .book {
+    width: 1000px;
+    height: 600px;
+  }
+  .sceneTitle {
+    font-size: 2em;
+  }
+  .narration {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 1024px) {
+  .book {
+    width: 90vw;
+    height: 70vh;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Portada izquierda en la primera escena */
+.cover {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: linear-gradient(160deg,
+    rgba(255, 248, 225, 0.98) 0%,
+    rgba(250, 235, 190, 0.98) 50%,
+    rgba(240, 220, 160, 0.98) 100%
+  );
+  padding: 40px;
+}
+
+.coverDecoration {
+  color: #8B4513;
+  font-size: 2em;
+  opacity: 0.6;
+}
+
+.coverSubtitle {
+  color: #8B4513;
+  font-size: 1em;
+  font-style: italic;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.coverTitle {
+  color: #5c1a00;
+  font-size: 2.8em;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0;
+  font-family: var(--font-title), 'Fredoka', sans-serif;
+  text-shadow: 2px 2px 0px rgba(139, 69, 19, 0.25);
+  border-top: 2px solid rgba(139, 69, 19, 0.3);
+  border-bottom: 2px solid rgba(139, 69, 19, 0.3);
+  padding: 16px 24px;
+}
+
+.coverAuthor {
+  color: #8B4513;
+  font-size: 1.1em;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+}

@@ -1,0 +1,182 @@
+/* Hero.module.css — pantalla completa estilo Aaron Blabey */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Fondo oscuro cálido (como el rojo de Aaron Blabey, aquí marrón oscuro) ── */
+.bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, #5C1A00 0%, #2A0900 55%, #0E0300 100%);
+  z-index: 0;
+}
+
+/* Textura sutil de papel/pergamino */
+.bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' x='0' y='0' fill='rgba(255,200,100,0.03)'/%3E%3Crect width='1' height='1' x='2' y='2' fill='rgba(255,200,100,0.03)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  z-index: 1;
+}
+
+/* ── Título superior: "EL GATO" ── */
+.titleTop {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  text-align: center;
+  /* Separado del centro para que el personaje quede entre las dos líneas */
+  margin-bottom: -2vh;
+}
+
+/* ── Título inferior: "CON BOTAS" ── */
+.titleBottom {
+  position: relative;
+  z-index: 2; /* DETRÁS del personaje — personaje "rompe" el título */
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  text-align: center;
+  margin-top: -2vh;
+}
+
+/* Palabra pequeña "EL" / "CON" */
+.titleSmall,
+.titleBig,
+.titleAccent {
+  font-family: var(--font-title), 'Lilita One', sans-serif;
+  font-weight: 400; /* Lilita One ya es ultra-bold */
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.titleSmall {
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  color: rgba(255, 250, 240, 0.75);
+}
+
+.titleBig {
+  font-size: clamp(6rem, 17vw, 15rem);
+  color: #FFFAF0;
+  text-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* "BOTAS" — en dorado, como Aaron Blabey usa amarillo para "the" */
+.titleAccent {
+  font-size: clamp(6rem, 17vw, 15rem);
+  color: #FFD700;
+  text-shadow:
+    0 4px 0 rgba(139, 80, 0, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Personaje: z-index ALTO para "romper" el título inferior ── */
+.characterWrap {
+  position: relative;
+  z-index: 5; /* Entre titleTop (z:10) y titleBottom (z:2) */
+  width: clamp(180px, 28vw, 420px);
+  /* Sin margen extra — el overlap de títulos lo maneja margin-bottom/top negativos */
+}
+
+.characterImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.7));
+}
+
+/* ── Subtítulo ── */
+.subtitle {
+  position: relative;
+  z-index: 10;
+  margin-top: 20px;
+  font-family: var(--font-body), 'Nunito', sans-serif;
+  font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+  font-style: italic;
+  color: rgba(255, 215, 80, 0.8);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* ── Flecha scroll ── */
+.scrollArrow {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: transparent;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #FFD700;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.scrollArrow:hover {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.scrollArrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+  .titleBig,
+  .titleAccent {
+    font-size: clamp(4rem, 19vw, 7rem);
+  }
+
+  .titleSmall {
+    font-size: clamp(2.2rem, 11vw, 4rem);
+  }
+
+  .characterWrap {
+    width: clamp(140px, 48vw, 280px);
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    padding: 0 20px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .titleBig,
+  .titleAccent {
+    font-size: clamp(3rem, 20vw, 5rem);
+  }
+
+  .scrollArrow {
+    bottom: 24px;
+    width: 42px;
+    height: 42px;
+  }
+}
