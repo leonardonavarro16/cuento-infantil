@@ -5,31 +5,23 @@
 
 .character {
   position: absolute;
-  /* filter con drop-shadow respeta la transparencia del PNG.
-     box-shadow NO lo haría — aplicaría sombra al rectángulo,
-     no al contorno del personaje. */
   filter: drop-shadow(4px 8px 12px rgba(0, 0, 0, 0.35));
-
-  /* Transición suave para el hover — solo afecta transform,
-     no al filter (más eficiente en GPU) */
-  transition: transform 0.25s ease, filter 0.25s ease;
-
-  /* cursor normal por defecto */
-  cursor: default;
-
-  /* z-index bajo para que otros elementos del libro puedan superponerse si hace falta */
-  z-index: 10;
-}
-
-/* Si tiene onClick, mostramos cursor pointer y efecto hover */
-.clickable {
+  transition: filter 0.25s ease;
   cursor: pointer;
+  z-index: 10;
+  /* Área de tap más grande en móvil */
+  -webkit-tap-highlight-color: transparent;
 }
 
-.clickable:hover {
-  transform: scale(1.04) translateY(-6px);
+.character:hover {
   filter: drop-shadow(6px 14px 18px rgba(0, 0, 0, 0.4))
-          brightness(1.05);
+          brightness(1.08);
+}
+
+/* Toque activo en móvil — feedback visual inmediato */
+.character:active {
+  filter: drop-shadow(6px 14px 18px rgba(0, 0, 0, 0.4))
+          brightness(1.15);
 }
 
 /* En tablets: escala ligera — los personajes ya son pequeños */

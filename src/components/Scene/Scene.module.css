@@ -23,7 +23,7 @@
   order: 1;
 }
 
-/* ── Imagen de fondo fullscreen ── */
+/* ── Imagen de fondo fullscreen con Ken Burns ── */
 .bg {
   position: absolute;
   inset: 0;
@@ -33,21 +33,40 @@
   object-position: center;
   pointer-events: none;
   user-select: none;
+  /* Ken Burns: zoom lento + paneo suave — duración larga para que sea sutil */
+  animation: kenBurns 18s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes kenBurns {
+  0%   { transform: scale(1)    translate(0%, 0%); }
+  33%  { transform: scale(1.06) translate(-1.5%, 1%); }
+  66%  { transform: scale(1.04) translate(1.5%, -1%); }
+  100% { transform: scale(1.08) translate(-1%, 1.5%); }
+}
+
+/* ── Overlay de transición: capa oscura que GSAP controla ── */
+.transitionOverlay {
+  position: absolute;
+  inset: 0;
+  background: #0a0400;
+  z-index: 50;
+  pointer-events: none;
+  /* opacity controlado por GSAP, empieza en 1 (visible) */
 }
 
 /* ── Área de personajes ── */
 .charArea {
   position: relative;
   height: 100%;
-  z-index: 5;
+  z-index: 60;
   overflow: hidden;
-  /* Los personajes son absolutos dentro de este contenedor */
 }
 
 /* ── Panel de texto ── */
 .textArea {
   position: relative;
-  z-index: 10;
+  z-index: 60;
   display: flex;
   flex-direction: column;
   justify-content: center;

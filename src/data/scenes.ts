@@ -11,6 +11,7 @@ export interface Character {
   height?: number;
   animation?: 'fadeUp' | 'fadeLeft' | 'fadeRight' | 'pop';
   delay?: number;
+  particles?: string[]; // Emojis que salen al tocar el personaje
 }
 
 export interface Scene {
@@ -20,7 +21,7 @@ export interface Scene {
   audioFile: string;
   background: string;
   characters: Character[];
-  effects?: string[];
+  effects?: ('rain' | 'rain-heavy' | 'fog' | 'leaves' | 'sparkles')[];
 }
 
 export const scenes: Scene[] = [
@@ -30,6 +31,7 @@ export const scenes: Scene[] = [
     narration: "Había una vez, en un reino lejano y lleno de magia, un viejo molinero muy querido por todos. Cuando llegó su hora de partir, reunió a sus tres hijos y les entregó todo lo que tenía. Al mayor le dejó el gran molino de viento que tanto trabajo le había costado levantar. Al segundo le dio el burro fuerte y fiel que cargaba los sacos de harina cada mañana. Pero al hijo menor, el más joven y soñador de todos, solo le quedaba un gato anaranjado de ojos brillantes y mirada inteligente.",
     audioFile: "/audio/narration/escena1.mp3",
     background: "/images/escenarios/escenario1.webp",
+    effects: ['leaves'],
     characters: [
       {
         src: "/images/personajes/gato-recibiendo-botas.webp",
@@ -84,6 +86,7 @@ export const scenes: Scene[] = [
     narration: "El Gato con Botas se internó en el bosque con su saco lleno de zanahorias frescas y lechugas tiernas. Tendió una trampa en el claro más soleado del bosque y se escondió pacientemente entre los arbustos sin hacer el menor ruido. Los conejos, atraídos por el delicioso aroma, saltaron curiosos y cayeron uno a uno dentro del saco. Con gran habilidad, el gato capturó a los más gordos y lustrosos. Luego, con sus botas bien limpias y su mejor postura, marchó orgulloso hacia el palacio del Rey.",
     audioFile: "/audio/narration/escena4.mp3",
     background: "/images/escenarios/escenario4.webp",
+    effects: ['fog', 'leaves'],
     characters: [
       {
         src: "/images/personajes/gato-cazador.webp",
@@ -183,6 +186,7 @@ export const scenes: Scene[] = [
     narration: "Cuando el carruaje dorado del Rey pasó junto al río, el Gato con Botas saltó al camino agitando los brazos con desesperación y gritando: '¡Socorro, Majestad! ¡Unos bandidos han robado las ropas del Marqués de Carabás mientras se bañaba!' El Rey, que tanto apreciaba los generosos regalos del marqués, ordenó de inmediato que le trajeran las mejores ropas de su guardarropa personal. Cuando el joven salió del río vestido con finas telas bordadas en hilo de oro, la Princesa lo miró fijamente y sintió que el corazón le daba un vuelco muy especial.",
     audioFile: "/audio/narration/escena8.mp3",
     background: "/images/escenarios/escenario8.webp",
+    effects: ['rain'],
     characters: [
       {
         src: "/images/personajes/gato-gritando.webp",
@@ -201,6 +205,7 @@ export const scenes: Scene[] = [
         height: 170,
         animation: "fadeRight",
         delay: 0.6,
+        particles: ['💖', '💕', '✨', '💗', '💖', '💫'],
       }
     ]
   },
@@ -210,6 +215,7 @@ export const scenes: Scene[] = [
     narration: "Mientras el carruaje real avanzaba lentamente por los campos verdes, el Gato con Botas corría adelante a toda velocidad sin perder un segundo. Se detenía ante cada grupo de campesinos, labradores y pastores que encontraba en el camino. 'Escuchadme bien,' les decía señalando con su garra en alto, 'si el Rey os pregunta de quién son estas tierras y estos rebaños, diréis que todo pertenece al noble Marqués de Carabás.' Los campesinos, sorprendidos ante aquel gato tan serio y elegante, prometieron obedecer al instante.",
     audioFile: "/audio/narration/escena9.mp3",
     background: "/images/escenarios/escenario9.webp",
+    effects: ['leaves'],
     characters: [
       {
         src: "/images/personajes/gato-engañando.webp",
@@ -228,6 +234,7 @@ export const scenes: Scene[] = [
     narration: "Al final de todas aquellas tierras se alzaba un enorme castillo de piedra oscura donde vivía el más temible de todos los ogros. Era tan poderoso y feroz que todos los reinos cercanos le pagaban tributo por miedo. El Gato con Botas llegó solo hasta sus puertas enormes, sin mostrar ni una pizca de miedo, con su sombrero bien puesto y sus botas relucientes. Llamó con fuerza a la gran puerta de hierro y esperó sereno. El ogro, asombrado de que alguien se atreviera a visitarle, abrió la puerta y miró al pequeño gato con curiosidad.",
     audioFile: "/audio/narration/escena10.mp3",
     background: "/images/escenarios/escenario10.webp",
+    effects: ['fog', 'rain-heavy'],
     characters: [
       {
         // Ogro intencionalmente más grande para mostrar su amenaza
@@ -238,6 +245,7 @@ export const scenes: Scene[] = [
         height: 200,
         animation: "fadeRight",
         delay: 0.3,
+        particles: ['💥', '⚡', '💢', '🔥', '💥', '⚡'],
       },
       {
         // Gato más pequeño para el contraste de escala
@@ -257,6 +265,7 @@ export const scenes: Scene[] = [
     narration: "'Dicen que eres el ser más poderoso del mundo y que puedes transformarte en cualquier criatura,' dijo el gato con una sonrisa traviesa y desafiante. El ogro, furioso ante el reto, rugió y se transformó en un enorme y terrible león con melena dorada que llenó toda la sala. El gato saltó asustado pero se recompuso enseguida. 'Impresionante... pero lo verdaderamente difícil sería convertirse en algo tan pequeño como... un ratoncito.' El ogro, picado en su orgullo, se transformó en un diminuto ratón gris. Y el gato... de un solo salto, puso fin al ogro para siempre.",
     audioFile: "/audio/narration/escena11.mp3",
     background: "/images/escenarios/escenario11.webp",
+    effects: ['sparkles'],
     characters: [
       {
         // León grande — impresionante
@@ -277,6 +286,7 @@ export const scenes: Scene[] = [
         height: 78,
         animation: "pop",
         delay: 1.0,
+        particles: ['🐭', '💨', '😱', '💫', '🐭', '💨'],
       }
     ]
   },
@@ -286,6 +296,7 @@ export const scenes: Scene[] = [
     narration: "Con el ogro vencido, el gran castillo y todas las tierras del reino pasaron a pertenecer al joven hijo del molinero. El carruaje real llegó justo en ese momento, y el Gato con Botas anunció con gran pompa y orgullo: '¡Bienvenidos al majestuoso castillo del Marqués de Carabás!' El Rey, tan impresionado por las riquezas y tierras del marqués, le ofreció con alegría la mano de su hija la Princesa. Los dos jóvenes se miraron con cariño y aceptaron emocionados. Y así fue como, gracias a la valentía, la lealtad y la astucia de un gato con botas, el hijo más humilde del molinero se convirtió en el noble más feliz de todo el reino.",
     audioFile: "/audio/narration/escena12.mp3",
     background: "/images/escenarios/escenario12.webp",
+    effects: ['sparkles', 'leaves'],
     characters: [
       {
         src: "/images/personajes/princesa-y-principe.webp",
@@ -295,6 +306,7 @@ export const scenes: Scene[] = [
         height: 182,
         animation: "fadeLeft",
         delay: 0.3,
+        particles: ['💖', '💕', '✨', '💗', '👑', '💫'],
       },
       {
         src: "/images/personajes/gato-con-botas.webp",

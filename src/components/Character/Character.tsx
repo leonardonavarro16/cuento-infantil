@@ -1,31 +1,25 @@
 'use client';
 
-// Character.tsx — Renderiza un personaje PNG sobre el fondo de la escena.
-// Cada personaje se posiciona de forma absoluta, recibe su animación
-// de entrada por props y reacciona al hover y al click.
-
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
-// Usamos <img> nativo en lugar de next/image porque:
-// 1. Las imágenes ya están en /public (no hay optimización externa necesaria)
-// 2. next/image con width/height numéricos + style override causa conflictos
-// 3. <img> es más predecible con position:absolute y dimensiones en px
 import styles from './Character.module.css';
 
 interface CharacterProps {
-  src: string;        // Ruta al WebP transparente, ej: "/images/personajes/gato.webp"
-  alt: string;        // Texto alternativo (accesibilidad)
-  position: {
-    x: string;        // Posición horizontal: "20%", "150px", etc.
-    y: string;        // Posición desde abajo: "10%", "0px", etc.
-  };
-  width?: number;     // Ancho en px (default: 300)
-  height?: number;    // Alto en px (default: 400)
-  animation?: 'fadeUp' | 'fadeLeft' | 'fadeRight' | 'pop'; // Tipo de entrada
-  delay?: number;     // Retraso antes de aparecer (segundos)
-  zIndex?: number;    // Orden de apilamiento (evita solapamientos)
+  src: string;
+  alt: string;
+  position: { x: string; y: string };
+  width?: number;
+  height?: number;
+  animation?: 'fadeUp' | 'fadeLeft' | 'fadeRight' | 'pop';
+  delay?: number;
+  zIndex?: number;
   onClick?: () => void;
+  // Partículas personalizadas por tipo de personaje
+  particles?: string[];
 }
+
+// Partículas por defecto — estrellas y destellos
+const DEFAULT_PARTICLES = ['⭐', '✨', '💫', '🌟', '✨', '⭐'];
 
 export default function Character({
   src,
@@ -37,65 +31,119 @@ export default function Character({
   delay = 0,
   zIndex = 10,
   onClick,
+  particles = DEFAULT_PARTICLES,
 }: CharacterProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const idleRef = useRef<gsap.core.Tween | null>(null);
 
-  // Animación de entrada cuando el personaje aparece en pantalla.
-  // Usamos 'from' de GSAP: define el estado INICIAL y anima HASTA
-  // los valores CSS normales. Así el personaje "entra" en lugar de "salir".
+  // Animación de entrada
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // Limpiamos cualquier estado inline que GSAP haya dejado de ejecuciones
-    // anteriores (problema con React StrictMode que monta efectos dos veces).
     gsap.killTweensOf(el);
     gsap.set(el, { clearProps: 'all' });
 
-    // fromTo define EXPLÍCITAMENTE el estado inicial Y el estado final.
-    // Así GSAP no depende del estado actual del elemento (que podría ser
-    // opacity:0 de una animación anterior sin completar).
     const fromMap = {
       fadeUp:    { opacity: 0, y: 60, x: 0, scale: 1 },
       fadeLeft:  { opacity: 0, x: -80, y: 0, scale: 1 },
       fadeRight: { opacity: 0, x: 80, y: 0, scale: 1 },
       pop:       { opacity: 0, scale: 0.4, x: 0, y: 0 },
     };
-    const fromVars = fromMap[animation];
 
     gsap.fromTo(
       el,
-      fromVars,
-      { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.7, delay, ease: 'power3.out' }
+      fromMap[animation],
+      {
+        opacity: 1, y: 0, x: 0, scale: 1,
+        duration: 0.7, delay,
+        ease: 'power3.out',
+        onComplete: () => startIdleHint(el),
+      }
     );
 
     return () => {
       gsap.killTweensOf(el);
+      idleRef.current?.kill();
     };
   }, [animation, delay]);
 
-  // Click: efecto "bounce" — escala baja, sube y vuelve.
-  // Transmite sensación de que el personaje reacciona al toque.
+  // Float continuo: sube y baja suavemente como si respirara
+  const startIdleHint = (el: HTMLDivElement) => {
+    idleRef.current?.kill();
+    // Offset aleatorio para que no todos los personajes floten sincronizados
+    const offsetDelay = Math.random() * 1.5;
+    idleRef.current = gsap.to(el, {
+      y: -10,
+      duration: 2.2,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: offsetDelay,
+    });
+  };
+
+  // Burst de partículas emoji desde el centro del personaje
+  const spawnParticles = (el: HTMLDivElement) => {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 3; // Un tercio desde arriba — más visual
+
+    const count = 7;
+    for (let i = 0; i < count; i++) {
+      const span = document.createElement('span');
+      span.textContent = particles[Math.floor(Math.random() * particles.length)];
+      span.style.cssText = `
+        position: fixed;
+        left: ${cx}px;
+        top: ${cy}px;
+        font-size: ${1.2 + Math.random() * 0.8}rem;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        user-select: none;
+      `;
+      document.body.appendChild(span);
+
+      const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+      const dist = 55 + Math.random() * 45;
+
+      gsap.to(span, {
+        x: Math.cos(angle) * dist,
+        y: Math.sin(angle) * dist - 20,
+        opacity: 0,
+        scale: 0.4,
+        duration: 0.75 + Math.random() * 0.35,
+        ease: 'power2.out',
+        onComplete: () => span.remove(),
+      });
+    }
+  };
+
   const handleClick = () => {
     const el = ref.current;
     if (!el) return;
 
-    gsap.timeline()
-      .to(el, { scale: 0.92, duration: 0.1, ease: 'power2.in' })
-      .to(el, { scale: 1.08, duration: 0.15, ease: 'power2.out' })
-      .to(el, { scale: 1, duration: 0.2, ease: 'elastic.out(1, 0.5)' });
+    // Detener idle mientras reacciona
+    idleRef.current?.kill();
 
+    // Bounce expresivo — al terminar retoma el float
+    gsap.timeline({
+      onComplete: () => startIdleHint(el),
+    })
+      .to(el, { scale: 0.88, y: 0,   duration: 0.1,  ease: 'power2.in' })
+      .to(el, { scale: 1.15, y: -18, duration: 0.18, ease: 'power2.out' })
+      .to(el, { scale: 1,    y: 0,   duration: 0.5,  ease: 'elastic.out(1.2, 0.4)' });
+
+    spawnParticles(el);
     onClick?.();
   };
 
   return (
     <div
       ref={ref}
-      className={`${styles.character} ${onClick ? styles.clickable : ''}`}
+      className={styles.character}
       style={{
-        // Posicionamos desde la esquina inferior izquierda de la página.
-        // "bottom" para que los personajes "pisen" el suelo,
-        // "left" para el eje horizontal.
         left: position.x,
         bottom: position.y,
         width: `${width}px`,
