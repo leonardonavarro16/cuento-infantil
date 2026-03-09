@@ -30,6 +30,7 @@ export default function Narrator({ text, isSceneVisible, sceneId }: NarratorProp
     bounceRef.current?.kill();
     bounceRef.current = null;
     if (catRef.current) gsap.to(catRef.current, { y: 0, rotation: 0, duration: 0.3 });
+    window.dispatchEvent(new Event('narrator:stop'));
   }, []);
 
   const startAudio = useCallback(async () => {
@@ -43,6 +44,7 @@ export default function Narrator({ text, isSceneVisible, sceneId }: NarratorProp
       audio.onplay = () => {
         setIsPlaying(true);
         setIsLoading(false);
+        window.dispatchEvent(new Event('narrator:play'));
         if (catRef.current) {
           bounceRef.current = gsap.to(catRef.current, {
             y: -5, rotation: 8, duration: 0.35,
@@ -64,6 +66,7 @@ export default function Narrator({ text, isSceneVisible, sceneId }: NarratorProp
         bounceRef.current?.kill();
         bounceRef.current = null;
         if (catRef.current) gsap.to(catRef.current, { y: 0, rotation: 0, duration: 0.4 });
+        window.dispatchEvent(new Event('narrator:stop'));
       };
 
       audio.onerror = () => {
@@ -87,7 +90,10 @@ export default function Narrator({ text, isSceneVisible, sceneId }: NarratorProp
     else startAudio();
   }, [isPlaying, isLoading, startAudio, stopAudio]);
 
-  useEffect(() => { if (!isSceneVisible) stopAudio(); }, [isSceneVisible, stopAudio]);
+  useEffect(() => {
+    if (isSceneVisible) startAudio();
+    else stopAudio();
+  }, [isSceneVisible]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => { audioRef.current?.pause(); bounceRef.current?.kill(); }, []);
 
   return (

@@ -154,7 +154,7 @@ export const scenes: Scene[] = [
       {
         src: "/images/personajes/rey-regalando.webp",
         alt: "El Rey recibiendo los regalos complacido",
-        position: { x: "62%", y: "0%" },
+        position: { x: "65%", y: "0%" },
         width: 115,
         height: 165,
         animation: "fadeRight",
@@ -281,7 +281,7 @@ export const scenes: Scene[] = [
         // Ratón diminuto — contraste cómico
         src: "/images/personajes/raton.webp",
         alt: "El ogro transformado en un diminuto ratón",
-        position: { x: "68%", y: "0%" },
+        position: { x: "72%", y: "0%" },
         width: 62,
         height: 78,
         animation: "pop",
@@ -311,7 +311,7 @@ export const scenes: Scene[] = [
       {
         src: "/images/personajes/gato-con-botas.webp",
         alt: "El Gato con Botas, orgulloso de su hazaña",
-        position: { x: "63%", y: "0%" },
+        position: { x: "70%", y: "0%" },
         width: 112,
         height: 158,
         animation: "pop",

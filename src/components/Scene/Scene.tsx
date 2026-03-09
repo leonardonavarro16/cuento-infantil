@@ -16,33 +16,6 @@ interface SceneProps {
   onVisible?: (id: number) => void;
 }
 
-// Chime mágico con Web Audio API — sin archivos extra
-function playSceneChime() {
-  try {
-    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-
-    // Dos notas: Do5 → Sol5, sonido de cuento
-    const notes = [523.25, 783.99];
-    notes.forEach((freq, i) => {
-      const osc  = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
-
-      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.12);
-      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + i * 0.12 + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.9);
-
-      osc.start(ctx.currentTime + i * 0.12);
-      osc.stop(ctx.currentTime + i * 0.12 + 0.9);
-    });
-  } catch {
-    // Silencioso si el navegador bloquea AudioContext
-  }
-}
 
 export default function Scene({ scene, onVisible }: SceneProps) {
   const sectionRef  = useRef<HTMLElement>(null);
@@ -53,7 +26,7 @@ export default function Scene({ scene, onVisible }: SceneProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   const isLeft   = scene.id % 2 === 1;
-  const charScale = scene.characters.length === 1 ? 3.2 : 2.3;
+  const charScale = scene.characters.length === 1 ? 3.2 : 2.0;
 
   const stableOnVisible = useCallback((id: number) => onVisible?.(id), [onVisible]);
 
@@ -81,7 +54,6 @@ export default function Scene({ scene, onVisible }: SceneProps) {
         if (entry.isIntersecting) {
           setIsVisible(true);
           stableOnVisible(scene.id);
-          playSceneChime();
 
           // 1. Fondo: desblurrea y escala hacia su tamaño normal
           gsap.to(bg, {
