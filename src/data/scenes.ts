@@ -11,6 +11,7 @@ export interface Character {
   height?: number;
   animation?: 'fadeUp' | 'fadeLeft' | 'fadeRight' | 'pop';
   delay?: number;
+  bubble?: string;
   particles?: string[]; // Emojis que salen al tocar el personaje
 }
 
@@ -59,6 +60,7 @@ export const scenes: Scene[] = [
         height: 175,
         animation: "fadeLeft",
         delay: 0.3,
+        bubble: "¡Consígueme unas botas!",
       }
     ]
   },
@@ -123,6 +125,7 @@ export const scenes: Scene[] = [
         height: 162,
         animation: "fadeLeft",
         delay: 0.3,
+        bubble: "¡Del Marqués de Carabás!",
       },
       {
         src: "/images/personajes/rey-regalando.webp",
@@ -177,6 +180,7 @@ export const scenes: Scene[] = [
         height: 175,
         animation: "fadeUp",
         delay: 0.4,
+        bubble: "¡Métete al río, amo!",
       }
     ]
   },
@@ -196,6 +200,7 @@ export const scenes: Scene[] = [
         height: 155,
         animation: "fadeLeft",
         delay: 0.3,
+        bubble: "¡Socorro, Majestad!",
       },
       {
         src: "/images/personajes/princesa-y-principe.webp",
@@ -276,6 +281,7 @@ export const scenes: Scene[] = [
         height: 192,
         animation: "fadeLeft",
         delay: 0.3,
+        bubble: "¡ROOAAR!",
       },
       {
         // Ratón diminuto — contraste cómico
@@ -316,6 +322,7 @@ export const scenes: Scene[] = [
         height: 158,
         animation: "pop",
         delay: 0.7,
+        bubble: "¡Lo logramos!",
       }
     ]
   }

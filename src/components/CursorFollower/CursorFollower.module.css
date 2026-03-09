@@ -1,0 +1,23 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  /* GSAP controls x/y/scale */
+}
+
+/* Hide on touch devices */
+@media (hover: none) {
+  .cursor {
+    display: none;
+  }
+}

@@ -39,3 +39,47 @@
     scale: 0.78;
   }
 }
+
+/* ── Bocadillo de diálogo ── */
+.bubble {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FFFAF0;
+  border: 2.5px solid #8B4513;
+  border-radius: 14px;
+  padding: 7px 13px;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  color: #1a0800;
+  pointer-events: none;
+  z-index: 20;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+  /* GSAP controls opacity/scale */
+}
+
+/* Cola del bocadillo */
+.bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 9px solid transparent;
+  border-top-color: #8B4513;
+}
+
+/* Relleno interno de la cola */
+.bubble::before {
+  content: '';
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: #FFFAF0;
+  z-index: 1;
+}

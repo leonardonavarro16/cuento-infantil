@@ -12,6 +12,7 @@ interface CharacterProps {
   height?: number;
   animation?: 'fadeUp' | 'fadeLeft' | 'fadeRight' | 'pop';
   delay?: number;
+  bubble?: string;
   zIndex?: number;
   onClick?: () => void;
   // Partículas personalizadas por tipo de personaje
@@ -29,12 +30,14 @@ export default function Character({
   height = 175,
   animation = 'fadeUp',
   delay = 0,
+  bubble = '',
   zIndex = 10,
   onClick,
   particles = DEFAULT_PARTICLES,
 }: CharacterProps) {
   const ref = useRef<HTMLDivElement>(null);
   const idleRef = useRef<gsap.core.Tween | null>(null);
+  const bubbleRef = useRef<HTMLDivElement>(null);
 
   // Animación de entrada
   useEffect(() => {
@@ -43,6 +46,10 @@ export default function Character({
 
     gsap.killTweensOf(el);
     gsap.set(el, { clearProps: 'all' });
+
+    // Prepare bubble hidden
+    const bubbleEl = bubbleRef.current;
+    if (bubbleEl) gsap.set(bubbleEl, { scale: 0, opacity: 0, transformOrigin: 'bottom center' });
 
     const fromMap = {
       fadeUp:    { opacity: 0, y: 60, x: 0, scale: 1 },
@@ -58,7 +65,17 @@ export default function Character({
         opacity: 1, y: 0, x: 0, scale: 1,
         duration: 0.7, delay,
         ease: 'power3.out',
-        onComplete: () => startIdleHint(el),
+        onComplete: () => {
+          startIdleHint(el);
+          // Animate bubble in
+          if (bubbleEl) {
+            gsap.to(bubbleEl, {
+              scale: 1, opacity: 1,
+              duration: 0.5, delay: 0.3,
+              ease: 'elastic.out(1.1, 0.5)',
+            });
+          }
+        },
       }
     );
 
@@ -152,6 +169,11 @@ export default function Character({
       }}
       onClick={handleClick}
     >
+      {bubble && (
+        <div ref={bubbleRef} className={styles.bubble}>
+          {bubble}
+        </div>
+      )}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}

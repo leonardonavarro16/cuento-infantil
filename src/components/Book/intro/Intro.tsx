@@ -12,11 +12,13 @@ interface IntroProps {
 
 export default function Intro({ onComplete }: IntroProps) {
   const [mounted, setMounted] = useState(false);
-  const scene2Ref = useRef<HTMLDivElement>(null);
+  const scene2Ref   = useRef<HTMLDivElement>(null);
   const bigTitleRef = useRef<HTMLHeadingElement>(null);
-  const panelsRef = useRef<HTMLDivElement>(null);
+  const panelsRef   = useRef<HTMLDivElement>(null);
   const triggeredRef = useRef(false);
-  const logoRef = useRef<HTMLDivElement>(null);
+  const logoRef     = useRef<HTMLDivElement>(null);
+  const btnRef      = useRef<HTMLButtonElement>(null);
+  const btnFloatRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
@@ -45,7 +47,39 @@ export default function Intro({ onComplete }: IntroProps) {
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
         '-=0.3'
-      );
+      )
+      .call(() => {
+        const btn = btnRef.current;
+        if (!btn) return;
+        // Flotación continua tras la entrada
+        btnFloatRef.current = gsap.to(btn, {
+          y: -12, duration: 1.5,
+          repeat: -1, yoyo: true, ease: 'sine.inOut',
+        });
+      });
+  }, []);
+
+  // Hover sobre el botón COMENZAR
+  useEffect(() => {
+    const btn = btnRef.current;
+    if (!btn) return;
+    const onEnter = () => {
+      btnFloatRef.current?.pause();
+      gsap.to(btn, { scale: 1.06, duration: 0.2, ease: 'power2.out' });
+    };
+    const onLeave = () => {
+      gsap.to(btn, {
+        scale: 1, duration: 0.2, ease: 'power2.in',
+        onComplete: () => { btnFloatRef.current?.resume(); },
+      });
+    };
+    btn.addEventListener('mouseenter', onEnter);
+    btn.addEventListener('mouseleave', onLeave);
+    return () => {
+      btn.removeEventListener('mouseenter', onEnter);
+      btn.removeEventListener('mouseleave', onLeave);
+      btnFloatRef.current?.kill();
+    };
   }, []);
 
   // Hover sobre el logo: cada letra cambia de color en cascada
@@ -151,7 +185,7 @@ export default function Intro({ onComplete }: IntroProps) {
 
         <p className={styles.tagline}>ÉRASE UNA VEZ, EN UN REINO MUY LEJANO...</p>
 
-        <button className=  {styles.skipBtn} onClick={goToScene2}>
+        <button className={styles.skipBtn} onClick={goToScene2}>
           Continuar ↓
         </button>
       </div>
@@ -168,7 +202,7 @@ export default function Intro({ onComplete }: IntroProps) {
 
         <div ref={panelsRef} className={styles.bottomPanels}>
           <div className={styles.panelLeft}>
-            <button className={styles.btn} onClick={onComplete}>
+            <button ref={btnRef} className={styles.btn} onClick={onComplete}>
               COMENZAR <span className={styles.arrow}>›</span>
             </button>
           </div>
